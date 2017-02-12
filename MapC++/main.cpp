@@ -10,7 +10,7 @@
 #include "Provience.h"
 
 int main(int argc, const char * argv[]) {
- 
+
     Provience *head = (Provience*)malloc(sizeof(Provience));
     int num = LoadFromDoc(head);
     Provience *p = head->next;
@@ -23,15 +23,15 @@ int main(int argc, const char * argv[]) {
 //        p = p->next;
 //    }
     int a[35][35];
-    graphcolor(34, 4, a, head);
+    graphcolor(32, 4, a, head);
     int i;
-    for (i = 1; i <= 34; i++) {
+ /*   for (i = 1; i <= 34; i++) {
         char s[100];
         char tag[100];
         sprintf(tag, "button%d", p->sesquence);
         sprintf(s, "/Users/Mauri/Desktop/Map/%s.cs", tag);
         FILE *fp = fopen(s,"w+");
-        
+
         if(!fp){
             printf("no documents!\n");
             return 0;
@@ -45,7 +45,7 @@ int main(int argc, const char * argv[]) {
         p = p->next;
     }
 //
-    
+*/
     Graph graph;
     Graph tree;
     createdGraph(&graph, head);
@@ -53,8 +53,7 @@ int main(int argc, const char * argv[]) {
     printf("普里姆算法树中顶点加入的顺序:\n");
     prim(&graph,&tree);
     printf("\n");
-    
-    
-    
+
+
     return 0;
 }

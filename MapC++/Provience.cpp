@@ -15,13 +15,13 @@
 //返回值：返回节点个数
 //功能：根据文件读入节点信息
 int LoadFromDoc(Provience *&head){
-    FILE *fp = fopen("/Users/Mauri/Desktop/Map/Map/text.txt","r");
-    
+    FILE *fp = fopen("text.txt","r");
+
     if(!fp){
         printf("no documents!\n");
         return 0;
     }
-    
+
     Provience *p = head;
     int i = 0;
     while (!feof(fp)) {
@@ -43,13 +43,13 @@ int LoadFromDoc(Provience *&head){
 //功能：根据文件信息建立边的关系
 void LoadNears(Provience *&head, int num){
     Provience *p = head->next;
-    FILE *fp = fopen("/Users/Mauri/Desktop/Map/Map/near.txt","r");
-    
+    FILE *fp = fopen("near.txt","r");
+
     if(!fp){
         printf("no documents!\n");
         return;
     }
-    
+
     int i;
     for (i = 0; i < num; i++) {
         int k;
@@ -104,7 +104,8 @@ bool ColorIsRight(int k,int c[][35])//判断顶点k的着色是否发生冲突
 
 void graphcolor(int n, int m, int c[][35], Provience *&head){
     Provience *p = head->next;
-    int count = 0;
+    int count = 1;
+
     while (p) {
         int i = p->nears;
         int j, m = p->sesquence;
@@ -122,7 +123,7 @@ void graphcolor(int n, int m, int c[][35], Provience *&head){
         colors[i] = 0;
     k = 1;
     while(k >= 1){
-        
+
         colors[k] = colors[k]+1;
         while(colors[k] <= m)
             if(ColorIsRight(k,c))
@@ -130,20 +131,25 @@ void graphcolor(int n, int m, int c[][35], Provience *&head){
             else
                 colors[k] = colors[k]+1;//搜索下一个颜色
         if(colors[k] <=m && k==n){
+
+        char tag[100];
+        sprintf(tag, "%d.txt", count);
+        FILE *fp = fopen(tag,"w+");
+           char s[100];
             for(i = 1; i <= n; i++){
                 //                p->color = colors[i];
                 //                p = p->next;
-                
+
                 printf("%d\n",colors[i]);
-                
-                
+                fprintf(fp, "%d\n",colors[i]);
+
             }
-            printf("\n");
+                fclose(fp);
             count++;
-            if (count == 200) {
-                break;
-            }
-            //break;
+            printf("\n");
+            if(count == 4){break;}
+
+
         }
         else if(colors[k] <= m && k < n)
             k = k+1;//处理下一个顶点
@@ -152,6 +158,7 @@ void graphcolor(int n, int m, int c[][35], Provience *&head){
             k = k-1;//回溯
         }
     }
+
 }
 
 void Scripts(Provience *p){
@@ -162,7 +169,7 @@ void Scripts(Provience *p){
         sprintf(tag, "button%d", p->sesquence);
         sprintf(s, "/Users/Mauri/Desktop/Map/%s.cs", tag);
         FILE *fp = fopen(s,"w+");
-        
+
         if(!fp){
             printf("no documents!\n");
             return ;
@@ -175,7 +182,7 @@ void Scripts(Provience *p){
         fprintf(fp, "\n\t\t}\n\t}\n}");
         p = p->next;
     }
-    
+
 }
 void createdGraph(PGraph g, Provience *head){
     int i, j;
@@ -220,6 +227,7 @@ void initTree(PGraph tree)
 //普里姆算法求最小生成树
 void prim(PGraph g,PGraph tree)
 {
+    FILE *fp = fopen("mintree.txt", "w+");
     int i, j, k;
     int index;//指向权值最小的边
     ArrayNode edgeArray[200];//辅助数组
@@ -266,11 +274,13 @@ void prim(PGraph g,PGraph tree)
         }
         i = edgeArray[index].to;
         int kuu = edgeArray[index].from;
-        printf("%d\n",tree->vertex[kuu]);
-        printf("%d\n", tree->vertex[i]);
+        fprintf(fp, "%d\n",tree->vertex[kuu]);
+        fprintf(fp, "%d\n", tree->vertex[i]);
+
         n++;
         //当有g->vertexNum个顶点时，最小生成树构造完成
         if(n == g->vertexNum)
             break;
     }
+            fclose(fp);
 }

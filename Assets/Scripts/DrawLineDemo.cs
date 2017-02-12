@@ -55,7 +55,7 @@ public class DrawLineDemo : MonoBehaviour
             GL.Vertex3(second.x, second.y, second.z - 10);
             GL.End();
             GL.PopMatrix();
-            i++;
+			i++;
         }
 
        
