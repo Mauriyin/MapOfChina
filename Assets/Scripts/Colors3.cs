@@ -8,17 +8,16 @@ public class Colors3 : MonoBehaviour
     private string[] strs;
     void Start()
     {
+
+    }
+    // Update is called once per frame
+    void Update()
+    {
         string Dpath = Application.dataPath;
         int num = Dpath.LastIndexOf("/");
         Dpath = Dpath.Substring(0, num);
         string url = Dpath + "/3.txt";
         strs = File.ReadAllLines(url);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
     public void ButtonClick(GameObject button)
     {

@@ -7,17 +7,18 @@ public class Colors : MonoBehaviour {
     private string[] strs;
     void Start()
     {
-        string Dpath = Application.dataPath;
-        int num = Dpath.LastIndexOf("/");
-        Dpath = Dpath.Substring(0, num);
-        string url = Dpath + "/1.txt";
-        strs = File.ReadAllLines(url);
+
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        string Dpath = Application.dataPath;
+        int num = Dpath.LastIndexOf("/");
+        Dpath = Dpath.Substring(0, num);
+        string url = Dpath + "/1.txt";
+        strs = File.ReadAllLines(url);
+        Debug.Log(strs);
     }
     public void ButtonClick(GameObject button)
     {

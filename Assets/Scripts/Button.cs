@@ -6,7 +6,7 @@ public class Button : MonoBehaviour {
 
     private bool flag;
     private GameObject Obj;
-   public GUIStyle font = new GUIStyle();
+    public GUIStyle font = new GUIStyle();
     void Start(){
         flag = false;
     }
