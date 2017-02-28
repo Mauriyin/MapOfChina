@@ -16,29 +16,29 @@
 
 //相邻省份节点信息
 typedef struct NearbyPro{
-    
+
     int seq;
     float distance;
     struct NearbyPro *next;
-    
-    
+
+
 }NearbyPro;
 
 //省份节点信息
 typedef struct Provience{
-    
+
     char name[50];
     char captail[50];
     char num[5];//区号
     double popultion;
     int sesquence;
     int nears;
-    
+
     int color;
-    
+
     struct Provience *next;
     NearbyPro *near;
-    
+
 }Provience;
 
 //图的定义
@@ -67,7 +67,7 @@ void CreateMatrix(Provience *&head);
 void CreateNet();
 
 bool ColorIsRight(int k,int c[][35]);
-void graphcolor(int n, int m, int c[][35], Provience *&head);
+void graphcolor(int n, int m, int c[][35], Provience *&head, int num);
 void Scripts(Provience *p);
 
 void createdGraph(PGraph g, Provience *head);

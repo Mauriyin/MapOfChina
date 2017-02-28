@@ -6,13 +6,13 @@ using System.IO;
 public class DrawLineDemo : MonoBehaviour
 {
     public Material mat;
-    
+
     private GameObject LineRenderGameObject;
     Vector3 first;
     Vector3 second;
 
     private string[] strs;
-
+	bool flag = false;
     public Camera cam;
 
 
@@ -24,7 +24,7 @@ public class DrawLineDemo : MonoBehaviour
         Dpath = Dpath.Substring(0, num);
         string url = Dpath + "/mintree.txt";
         strs = File.ReadAllLines(url);
-        
+		flag = true;
 
     }
 
@@ -58,6 +58,26 @@ public class DrawLineDemo : MonoBehaviour
 			i++;
         }
 
-       
+
     }
+	void OnGUI(){
+		if (flag) {
+
+			GUI.Box (new Rect (800, 20, 200, 150),"" );
+
+			GUILayout.BeginArea(new Rect(800, 50, 200, 200));
+
+			GUILayout.Label("每段路线金额：2.5k");
+			GUILayout.Label ("总路线长度（km）:" + strs [62]);
+			GUILayout.Label("总金额（k）："+strs [63]);
+			GUILayout.EndArea();
+		}
+	}
+	void Update(){
+		if (Input.GetMouseButtonDown(0)) {
+			flag = false;
+		}
+	
+	}
+		
 }

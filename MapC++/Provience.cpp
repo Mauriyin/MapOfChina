@@ -83,11 +83,18 @@ void CreateMatrix(Provience *&head){
         }
         p = p->next;
     }
+    a[19][24]=1;
+    a[24][19]=1;
+    a[20][24]=1;
+    a[24][20]=1;
     for (int x = 1; x <= 34; x++) {
-        for (int y = 1; y <= 34; y++) {
+        for (int y = 1; y <= 32; y++) {
             printf("%d ", a[x][y]);
+            if(a[x][y] != a[y][x])
+                printf("%d\t%d\n",x,y);
         }
         printf("\n");
+        printf("%d\n",a[27][28]);
     }
 }
 
@@ -102,10 +109,8 @@ bool ColorIsRight(int k,int c[][35])//判断顶点k的着色是否发生冲突
     return true;
 }
 
-void graphcolor(int n, int m, int c[][35], Provience *&head){
+void graphcolor(int n, int m, int c[][35], Provience *&head, int num){
     Provience *p = head->next;
-    int count = 1;
-
     while (p) {
         int i = p->nears;
         int j, m = p->sesquence;
@@ -118,49 +123,63 @@ void graphcolor(int n, int m, int c[][35], Provience *&head){
         p = p->next;
     }
     p = head->next;
-    int i, k;
+    int i;
+    int k = num;
+    c[19][24]=1;
+    c[24][19]=1;
+    c[20][24]=1;
+    c[24][20]=1;
+    c[27][28]=1;
+    c[28][27]=1;
     for(i = 1; i <= n;i++)
         colors[i] = 0;
-    k = 1;
-    while(k >= 1){
 
+    while(k >= 1){
+        int i;
+        for(i = 1; i <= n;i++){
+            if(colors[i] == 0)
+                break;
+        }
+        if(i == 33){
+            colors[1] = 4;
+            //printf("%d\n",colors[1]);
+            char tag[100];
+            sprintf(tag, "%d.txt",num );
+            FILE *fp = fopen(tag,"w+");
+            for(int p = 1; p <= n; p++){
+                //printf("%d\n",colors[p]);
+                fprintf(fp, "%d\n",colors[p]);
+
+            }
+            fclose(fp);
+            break;
+        }
         colors[k] = colors[k]+1;
         while(colors[k] <= m)
             if(ColorIsRight(k,c))
                 break;
             else
                 colors[k] = colors[k]+1;//搜索下一个颜色
-        if(colors[k] <=m && k==n){
 
-        char tag[100];
-        sprintf(tag, "%d.txt", count);
-        FILE *fp = fopen(tag,"w+");
-           char s[100];
-            for(i = 1; i <= n; i++){
-                //                p->color = colors[i];
-                //                p = p->next;
-
-                printf("%d\n",colors[i]);
-                fprintf(fp, "%d\n",colors[i]);
+      if(colors[k] <= m){
+            //处理下一个顶点
+            if(k == 32){
+                k = 1;
 
             }
-                fclose(fp);
-            count++;
-            printf("\n");
-            if(count == 4){break;}
-
-
+             k = k+1;
         }
-        else if(colors[k] <= m && k < n)
-            k = k+1;//处理下一个顶点
         else{
             colors[k] = 0;
+            if(k == 1){
+                k = 32;
+
+            }
             k = k-1;//回溯
+
         }
     }
-
 }
-
 void Scripts(Provience *p){
     int i;
     for (i = 1; i <= 34; i++) {
@@ -230,6 +249,7 @@ void prim(PGraph g,PGraph tree)
     FILE *fp = fopen("mintree.txt", "w+");
     int i, j, k;
     int index;//指向权值最小的边
+    int total;
     ArrayNode edgeArray[200];//辅助数组
     int length=0;//数组长度
     int n = 1;//统计数组已加入多少个顶点
@@ -274,13 +294,19 @@ void prim(PGraph g,PGraph tree)
         }
         i = edgeArray[index].to;
         int kuu = edgeArray[index].from;
+        total +=  edgeArray[index].weight;
         fprintf(fp, "%d\n",tree->vertex[kuu]);
         fprintf(fp, "%d\n", tree->vertex[i]);
 
         n++;
         //当有g->vertexNum个顶点时，最小生成树构造完成
-        if(n == g->vertexNum)
-            break;
-    }
+        if(n == g->vertexNum){
+            fprintf(fp, "%d\n",total);
+            total = total*2.5;
+            fprintf(fp, "%d",total);
             fclose(fp);
+            break;
+        }
+    }
+
 }
